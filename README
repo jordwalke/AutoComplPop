@@ -1,3 +1,8 @@
+Fork of AutoComplPop that:
+
+- (removes <BS> mappings which conflict with other plugins)
+- (Adds built in support for OCaml merlin completion and Haxe completion if Vaxe is installed)
+
 This is a mirror of http://www.vim.org/scripts/script.php?script_id=1879
 
 Repository:

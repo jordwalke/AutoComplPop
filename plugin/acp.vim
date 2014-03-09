@@ -35,7 +35,22 @@ function s:makeDefaultBehavior()
         \   'html'   : [],
         \   'xhtml'  : [],
         \   'css'    : [],
+        \   'haxe'   : [],
+        \   'ocaml'   : []
         \ }
+  " Repeat 1 seems to allow completion to be closed with a dot and still result
+  " in the method popup.
+  " It is also required to place this before the below completions, otherwise,
+  " ACP picks up local file references instead of the autocompletion
+  " intelligence - which ruins multiple Ocaml completions separated by dots.
+  " ex: String.String.String would fail (assuming String had a String member
+  " etc).
+  call add(behavs.ocaml, {
+        \   'command' : "\<C-x>\<C-o>",
+        \   'completefunc' : 'merlin#Complete',
+        \   'meets'   : 'acp#meetsForOCamlOmni',
+        \   'repeat'  : 1,
+        \ })
   "---------------------------------------------------------------------------
   if !empty(g:acp_behaviorUserDefinedFunction) &&
         \ !empty(g:acp_behaviorUserDefinedMeets)
@@ -116,6 +131,22 @@ function s:makeDefaultBehavior()
         \   'meets'   : 'acp#meetsForCssOmni',
         \   'repeat'  : 0,
         \ })
+  call add(behavs.haxe, {
+        \   'command' : "\<C-x>\<C-o>",
+        \   'completefunc' : 'vaxe#HaxeComplete',
+        \   'meets'   : 'acp#meetsForHaxeOmni',
+        \   'repeat'  : 0,
+        \ })
+  " OBJC TOO SLOW:
+  " " See note about "repeat" in ocaml section.
+  " " I believe you could just add the g:acp_behaviorUserDefinedFunction etc when
+  " " opening objc files etc.
+  " call add(behavs.ojbc, {
+  "       \   'command' : "\<C-x>\<C-o>",
+  "       \   'completefunc' : 'objc#cocoacomplete#Complete',
+  "       \   'meets'   : 'acp#meetsForObjCOmni',
+  "       \   'repeat'  : 1,
+  "       \ })
   "---------------------------------------------------------------------------
   return behavs
 endfunction
@@ -140,6 +171,11 @@ call s:defineOption('g:acp_behaviorFileLength', 0)
 call s:defineOption('g:acp_behaviorRubyOmniMethodLength', 0)
 call s:defineOption('g:acp_behaviorRubyOmniSymbolLength', 1)
 call s:defineOption('g:acp_behaviorPythonOmniLength', 0)
+call s:defineOption('g:acp_behaviorHaxeOmniLength', 0)
+call s:defineOption('g:acp_behaviorOCamlOmniInvokeLength', 0)
+call s:defineOption('g:acp_behaviorOCamlOmniTextLength', 2)
+" call s:defineOption('g:acp_behaviorObjCOmniInvokeLength', 0)
+" call s:defineOption('g:acp_behaviorObjCOmniTextLength', 2)
 call s:defineOption('g:acp_behaviorPerlOmniLength', -1)
 call s:defineOption('g:acp_behaviorXmlOmniLength', 0)
 call s:defineOption('g:acp_behaviorHtmlOmniLength', 0)

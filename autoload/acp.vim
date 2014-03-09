@@ -126,6 +126,33 @@ function acp#meetsForPythonOmni(context)
         \ a:context =~ '\k\.\k\{' . g:acp_behaviorPythonOmniLength . ',}$'
 endfunction
 
+
+" jordow: Changed From:
+" \ a:context =~ '\k\.\k\{' . g:acp_behaviorHaxeOmniLength . ',}$'
+function acp#meetsForHaxeOmni(context)
+  return g:acp_behaviorHaxeOmniLength >= 0 &&
+        \ a:context =~ '\(\k\|)\|]\|}\)\(\.\|(\)\k\{' . g:acp_behaviorHaxeOmniLength . ',}$'
+        "              ( a-z |  )] )    ( . | ( )
+endfunction
+
+function acp#meetsForOCamlOmni(context)
+  return g:acp_behaviorOCamlOmniInvokeLength >= 0 &&
+        \ a:context =~ '\(\w\|)\|]\|}\)\(\.\|(\|\s\)\k\{' . g:acp_behaviorOCamlOmniInvokeLength . ',}$' ||
+        \ g:acp_behaviorOCamlOmniTextLength >= 0 &&
+        \ a:context =~ '^\k\{' . g:acp_behaviorOCamlOmniTextLength . ',}$'
+        "              ( a-z |  )] )    ( . | ( )
+endfunction
+
+" TOO SLOW:
+" function acp#meetsForObjCOmni(context)
+"   return g:acp_behaviorObjCOmniInvokeLength >= 0 &&
+"         \ a:context =~ '\(\w\|)\|]\|}\)\(\.\|(\|\s\)\k\{' . g:acp_behaviorObjCOmniInvokeLength . ',}$' ||
+"         \ g:acp_behaviorObjCOmniTextLength >= 0 &&
+"         \ a:context =~ '^\k\{' . g:acp_behaviorObjCOmniTextLength . ',}$'
+"         "              ( a-z |  )] )    ( . | ( )
+" endfunction
+
+
 "
 function acp#meetsForPerlOmni(context)
   return g:acp_behaviorPerlOmniLength >= 0 &&
@@ -190,8 +217,8 @@ function acp#onPopupPost()
   " to clear <C-r>= expression on command-line
   echo ''
   if pumvisible()
-    inoremap <silent> <expr> <C-h> acp#onBs()
-    inoremap <silent> <expr> <BS>  acp#onBs()
+    " inoremap <silent> <expr> <C-h> acp#onBs()
+    " inoremap <silent> <expr> <BS>  acp#onBs()
     " a command to restore to original text and select the first match
     return (s:behavsCurrent[s:iBehavs].command =~# "\<C-p>" ? "\<C-n>\<Up>"
           \                                                 : "\<C-p>\<Down>")
@@ -236,7 +263,8 @@ function s:mapForMappingDriven()
         \ 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
         \ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
         \ '-', '_', '~', '^', '.', ',', ':', '!', '#', '=', '%', '$', '@', '<', '>', '/', '\',
-        \ '<Space>', '<C-h>', '<BS>', ]
+        \ '<Space>']
+        "\ '<Space>', '<C-h>', '<BS>', ] "REmoving bs mappings: jordow
   for key in s:keysMappingDriven
     execute printf('inoremap <silent> %s %s<C-r>=<SID>feedPopup()<CR>',
           \        key, key)
@@ -373,8 +401,8 @@ endfunction
 
 "
 function s:finishPopup(fGroup1)
-  inoremap <C-h> <Nop> | iunmap <C-h>
-  inoremap <BS>  <Nop> | iunmap <BS>
+  " inoremap <C-h> <Nop> | iunmap <C-h>
+  " inoremap <BS>  <Nop> | iunmap <BS>
   let s:behavsCurrent = []
   call s:restoreTempOptions(s:GROUP0)
   if a:fGroup1
