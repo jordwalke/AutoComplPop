@@ -1,4 +1,4 @@
-@jordwalke's Fork of AutoComplPop that:
+jordwalke's Fork of AutoComplPop that:
 
 - (removes <BS> mappings which conflict with other plugins)
 - (Adds built in support for OCaml merlin completion and Haxe completion if Vaxe is installed)
