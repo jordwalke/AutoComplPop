@@ -139,7 +139,7 @@ function acp#meetsForOCamlOmni(context)
   return g:acp_behaviorOCamlOmniInvokeLength >= 0 &&
         \ a:context =~ '\(\w\|)\|]\|}\)\(\.\|(\|\s\)\k\{' . g:acp_behaviorOCamlOmniInvokeLength . ',}$' ||
         \ g:acp_behaviorOCamlOmniTextLength >= 0 &&
-        \ a:context =~ '^\k\{' . g:acp_behaviorOCamlOmniTextLength . ',}$'
+        \ a:context =~ '\k\{' . g:acp_behaviorOCamlOmniTextLength . ',}$'
         "              ( a-z |  )] )    ( . | ( )
 endfunction
 
