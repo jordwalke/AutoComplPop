@@ -143,6 +143,16 @@ function acp#meetsForOCamlOmni(context)
         "              ( a-z |  )] )    ( . | ( )
 endfunction
 
+function acp#meetsForReasonOmni(context)
+  return g:acp_behaviorReasonOmniInvokeLength >= 0 &&
+        \ a:context =~ '\(\w\|)\|]\|}\)\(\.\|(\|\s\)\k\{' . g:acp_behaviorReasonOmniInvokeLength . ',}$' ||
+        \ g:acp_behaviorReasonOmniTextLength >= 0 &&
+        \ a:context =~ '\S\{' . g:acp_behaviorReasonOmniTextLength . ',}$'
+        "              ( a-z |  )] )    ( . | ( )
+endfunction
+
+
+
 " TOO SLOW:
 " function acp#meetsForObjCOmni(context)
 "   return g:acp_behaviorObjCOmniInvokeLength >= 0 &&
