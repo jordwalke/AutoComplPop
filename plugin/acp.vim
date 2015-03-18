@@ -36,7 +36,8 @@ function s:makeDefaultBehavior()
         \   'xhtml'  : [],
         \   'css'    : [],
         \   'haxe'   : [],
-        \   'ocaml'   : []
+        \   'ocaml'   : [],
+        \   'reason'   : []
         \ }
   " Repeat 1 seems to allow completion to be closed with a dot and still result
   " in the method popup.
@@ -51,6 +52,13 @@ function s:makeDefaultBehavior()
         \   'meets'   : 'acp#meetsForOCamlOmni',
         \   'repeat'  : 1,
         \ })
+  call add(behavs.reason, {
+        \   'command' : "\<C-x>\<C-o>",
+        \   'completefunc' : 'merlin#Complete',
+        \   'meets'   : 'acp#meetsForReasonOmni',
+        \   'repeat'  : 1,
+        \ })
+
   "---------------------------------------------------------------------------
   if !empty(g:acp_behaviorUserDefinedFunction) &&
         \ !empty(g:acp_behaviorUserDefinedMeets)
@@ -174,6 +182,8 @@ call s:defineOption('g:acp_behaviorPythonOmniLength', 0)
 call s:defineOption('g:acp_behaviorHaxeOmniLength', 0)
 call s:defineOption('g:acp_behaviorOCamlOmniInvokeLength', 0)
 call s:defineOption('g:acp_behaviorOCamlOmniTextLength', 2)
+call s:defineOption('g:acp_behaviorReasonOmniInvokeLength', 0)
+call s:defineOption('g:acp_behaviorReasonOmniTextLength', 2)
 " call s:defineOption('g:acp_behaviorObjCOmniInvokeLength', 0)
 " call s:defineOption('g:acp_behaviorObjCOmniTextLength', 2)
 call s:defineOption('g:acp_behaviorPerlOmniLength', -1)
