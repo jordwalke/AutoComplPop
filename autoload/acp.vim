@@ -145,11 +145,12 @@ endfunction
 
 function acp#meetsForReasonOmni(context)
   return g:acp_behaviorReasonOmniInvokeLength >= 0 &&
-        \ a:context =~ '\(\w\|)\|]\|}\)\(\.\|(\|\s\)\k\{' . g:acp_behaviorReasonOmniInvokeLength . ',}$' ||
+        \ a:context =~ '\(\w\|)\|]\|}\)\(\.\)\k\{' . g:acp_behaviorReasonOmniInvokeLength . ',}$' ||
         \ g:acp_behaviorReasonOmniTextLength >= 0 &&
-        \ a:context =~ '\S\{' . g:acp_behaviorReasonOmniTextLength . ',}$'
+        \ a:context =~ '\w\{' . g:acp_behaviorReasonOmniTextLength . ',}$'
         "              ( a-z |  )] )    ( . | ( )
 endfunction
+
 
 
 
