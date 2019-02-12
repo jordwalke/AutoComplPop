@@ -374,6 +374,9 @@ function s:makeCurrentBehaviorSet()
   return behavs
 endfunction
 
+" Without noinsert, it flickers on gvim, for g:acp_mappingDriven=1
+let s:baseCompleteOpts = has('patch-7.4.784') ? 'menuone,noinsert' : 'menuone'
+
 "
 function s:feedPopup()
   " NOTE: CursorMovedI is not triggered while the popup menu is visible. And
@@ -397,7 +400,7 @@ function s:feedPopup()
   " or try popup once. So first completion is duplicated.
   call insert(s:behavsCurrent, s:behavsCurrent[s:iBehavs])
   call s:setTempOption(s:GROUP0, 'spell', 0)
-  call s:setTempOption(s:GROUP0, 'completeopt', 'menuone' . (g:acp_completeoptPreview ? ',preview' : ''))
+  call s:setTempOption(s:GROUP0, 'completeopt', s:baseCompleteOpts . (g:acp_completeoptPreview ? ',preview' : ''))
   call s:setTempOption(s:GROUP0, 'complete', g:acp_completeOption)
   call s:setTempOption(s:GROUP0, 'ignorecase', g:acp_ignorecaseOption)
   " NOTE: With CursorMovedI driven, Set 'lazyredraw' to avoid flickering.
